@@ -1,69 +1,68 @@
-# 7-Day Sprint Plan: Innopolis Event Manager (TMA)
+# Innopolis Events
 
-To finish this in one week, we are following an aggressive "Feature-Freeze" approach. By Day 5, no new features—only fixes.
+A platform for discovering and creating events in Innopolis, integrated with Telegram as a Mini App.
 
----
+## Live
 
-## 🗓 Day-by-Day Sprint
+- **Web App**: https://955bec982e62cf.lhr.life
+- **Telegram Bot**: https://t.me/your_bot (send /start)
 
-### **Day 1: Backend Foundation & Database**
-* **Goal:** Get the API skeleton and DB live.
-* **Tasks:**
-    * Initialize Spring Boot project (Spring Web, Data JPA, Postgres Driver).
-    * Create PostgreSQL tables: `users`, `events`, `participants`.
-    * Set up Docker Compose for a local PostgreSQL instance.
-    * **The "Must-Have":** Implement the Telegram `initData` validation service (security).
+## Features
 
-### **Day 2: Core API Development**
-* **Goal:** Business logic for events.
-* **Tasks:**
-    * Create REST controllers for `GET /events` (fetch all) and `POST /events` (create).
-    * Implement the `/join` logic (mapping a User ID to an Event ID).
-    * Add a simple "Innopolis Location" enum/list (ArtSpace, 318, Sports Complex) to avoid free-text errors.
+- **Interactive Map** — Leaflet map centered on Innopolis showing all upcoming events
+- **Event Creation** — Tap anywhere on the map to create an event with title, description, date, category, and participant limit
+- **Event Registration** — Register/unregister for events, see participant lists and capacity
+- **User Profiles** — Telegram-synced profiles with stats (events created, events joined)
+- **My Events** — View events you've created
+- **Signed Events** — View events you've registered for
+- **Bilingual** — Full Russian/English support with language toggle
+- **Telegram Bot** — Reply keyboard with WebApp buttons for Map, Profile, My Events, Signed Events, and Language selector
+- **Categories** — Education, Sport, Culture, Tech, Social, Food, Music, Gaming, Other
+- **Search & Filter** — Search events by name, filter by category
 
-### **Day 3: Frontend & Telegram SDK**
-* **Goal:** Get the app running inside Telegram.
-* **Tasks:**
-    * Scaffold Vue 3 project with Vite and Tailwind CSS.
-    * Install `@telegram-apps/sdk`.
-    * Implement the Auth bridge: Send `initData` to your Java backend to get a JWT or Session.
-    * Test basic connectivity: Display the user's Telegram Name on the home screen.
+## Tech Stack
 
-### **Day 4: UI Construction (The Mobile Experience)**
-* **Goal:** Build the actual screens.
-* **Tasks:**
-    * **Home View:** A list of event cards showing time, title, and "slots remaining."
-    * **Create View:** A minimal form (Title, Date, Location).
-    * **Integration:** Connect Vue components to your Spring Boot API.
-    * **Theme:** Use CSS variables (e.g., `var(--tg-theme-button-color)`) so it looks native.
+- **Frontend**: Vue 3 + Vite + Tailwind CSS + Leaflet.js + Pinia + vue-i18n
+- **Backend**: Node.js + Express + better-sqlite3
+- **Bot**: grammy (Telegram Bot Framework)
+- **Auth**: Telegram WebApp initData validation
+- **Deploy**: Docker + nginx + SSH tunnel (localhost.run)
 
-### **Day 5: Dockerization & Orchestration**
-* **Goal:** "Write once, run anywhere."
-* **Tasks:**
-    * Write a Multi-stage `Dockerfile` for the Java backend.
-    * Write a `Dockerfile` for the Vue frontend (using Nginx to serve static files).
-    * Link everything in `docker-compose.yml` (App + DB + Nginx).
-    * Test the entire stack on your local machine as one unit.
+## Telegram Bot
 
-### **Day 6: Deployment & SSL (Crucial)**
-* **Goal:** Live URL with HTTPS.
-* **Tasks:**
-    * Deploy to your VPS.
-    * Set up Nginx as a reverse proxy to handle incoming traffic.
-    * **HTTPS:** Generate a certificate via Certbot (Let's Encrypt). *Telegram will not load your app without HTTPS.*
-    * Point `@BotFather` to your new URL.
+Buttons:
+- 🗺 **Open Map** — Opens the map with all events
+- 👤 **Profile** — View your profile and stats
+- 📋 **My Events** — Events you created
+- ✅ **Signed Events** — Events you registered for
+- 🌐 **Language** — Switch between Russian and English
 
-### **Day 7: Polishing & Bug Hunting**
-* **Goal:** Zero crashes.
-* **Tasks:**
-    * Add Haptic Feedback (vibration) on "Join" button clicks.
-    * Fix CSS layout issues on small screens.
-    * Final testing in the Innopolis environment.
-    * **Launch!**
+## Running Locally
 
----
+```bash
+# Backend
+cd backend
+npm install
+cp .env.example .env  # Edit with your bot token
+npm run dev
 
-## ⚡ Speed Hacks
-* **UI:** Don't build custom components. Use a library like **PrimeVue** or just raw **Tailwind** to save time.
-* **Security:** If you're really pressed for time, use the Telegram ID as a simple Auth header (but validate it!) rather than building a full OAuth/JWT system.
-* **Testing:** Use `ngrok` during Days 3 and 4 to see your local code on your phone immediately without deploying.
+# Frontend
+cd frontend
+npm install
+npm run dev
+```
+
+## Deployment
+
+```bash
+docker compose up -d --build
+```
+
+## Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| `BOT_TOKEN` | Telegram Bot API token |
+| `WEBAPP_URL` | Public HTTPS URL of the frontend |
+| `PORT` | Backend port (default: 3000) |
+| `NODE_ENV` | Environment (production/development) |

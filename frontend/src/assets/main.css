@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --tg-bg: var(--tg-theme-bg-color, #ffffff);
+  --tg-text: var(--tg-theme-text-color, #1c1c1e);
+  --tg-hint: var(--tg-theme-hint-color, #8e8e93);
+  --tg-link: var(--tg-theme-link-color, #007aff);
+  --tg-btn: var(--tg-theme-button-color, #007aff);
+  --tg-btn-text: var(--tg-theme-button-text-color, #ffffff);
+  --tg-secondary: var(--tg-theme-secondary-bg-color, #f2f2f7);
+  --tg-section: var(--tg-theme-section-bg-color, #ffffff);
+  --tg-header: var(--tg-theme-header-bg-color, #f2f2f7);
+  --tg-section-header: var(--tg-theme-section-header-text-color, #8e8e93);
+  --tg-separator: var(--tg-theme-section-separator-color, #e5e5ea);
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, 'SF Pro Text', 'SF UI Text', system-ui, 'Helvetica Neue', sans-serif;
+  background: var(--tg-secondary);
+  color: var(--tg-text);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+#app {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Telegram-style sections */
+.tg-section {
+  background: var(--tg-section);
+  border-top: 0.5px solid var(--tg-separator);
+  border-bottom: 0.5px solid var(--tg-separator);
+}
+.tg-section-header {
+  color: var(--tg-section-header);
+  font-size: 13px;
+  font-weight: 400;
+  text-transform: uppercase;
+  padding: 8px 16px 6px;
+}
+.tg-cell {
+  display: flex;
+  align-items: center;
+  padding: 11px 16px;
+  background: var(--tg-section);
+  min-height: 44px;
+}
+.tg-cell + .tg-cell {
+  border-top: 0.5px solid var(--tg-separator);
+  margin-left: 16px;
+}
+
+/* Hide scrollbar */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Leaflet */
+.leaflet-container { width: 100%; height: 100%; z-index: 1; }
+.leaflet-popup-content-wrapper {
+  border-radius: 14px !important;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12) !important;
+  padding: 0 !important;
+  overflow: hidden;
+}
+.leaflet-popup-content { margin: 0 !important; width: auto !important; }
+.leaflet-popup-tip { box-shadow: 0 4px 10px rgba(0,0,0,0.08) !important; }
+.custom-marker { background: none !important; border: none !important; }
+
+/* Marker pin */
+.marker-pin {
+  width: 34px; height: 34px;
+  border-radius: 50% 50% 50% 0;
+  background: var(--tg-section);
+  border: 2.5px solid var(--tg-btn);
+  display: flex; align-items: center; justify-content: center;
+  transform: rotate(-45deg);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+.marker-pin span { transform: rotate(45deg); font-size: 15px; }
+
+/* Buttons */
+.tg-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  font-family: inherit;
+}
+.tg-button:active { opacity: 0.7; }
+.tg-button-primary {
+  background: var(--tg-btn);
+  color: var(--tg-btn-text);
+}
+.tg-button-danger {
+  background: #ff3b3020;
+  color: #ff3b30;
+}
+.tg-button:disabled { opacity: 0.4; cursor: default; }
+
+/* Animations */
+.animate-slide-up {
+  animation: slideUp 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+}
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
