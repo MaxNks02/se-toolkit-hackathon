@@ -47,6 +47,9 @@ if (process.env.BOT_TOKEN) {
   const bot = createBot(process.env.BOT_TOKEN, WEBAPP_URL);
   bot.start({
     onStart: () => console.log('Telegram bot started'),
+  }).catch(err => {
+    console.error('Bot failed to start:', err.message);
+    console.log('Server continues without bot (another instance may be running)');
   });
 } else {
   console.warn('BOT_TOKEN not set, Telegram bot not started');
