@@ -1,0 +1,13 @@
+Hi, I'm Maman Torebaev from group B25 CSE 03 at Innopolis University. Today I'm presenting Innopolis Events — a Telegram Mini App for campus events.
+
+The end users are students and staff at Innopolis who want to discover and join campus events. The problem is simple — events are scattered across dozens of Telegram chats. There's no central place to see what's happening, no map view, and no registration system. Our solution: a Telegram Mini App with an interactive map where anyone can create, discover, and join events at any location on campus.
+
+Here's how we built it. The frontend uses Vue 3 with Vite, Tailwind CSS, and Leaflet for the map. The backend is Express.js with SQLite. The Telegram bot uses the grammY framework. Everything runs in Docker with nginx and SSL.
+
+In Version 1, we built the core features: interactive map of Innopolis with event pins, event creation by tapping the map, registration, nine event categories with search and filters, user profiles synced from Telegram, bilingual support for Russian and English, and automatic authentication through Telegram.
+
+In Version 2, we added event chat for real-time discussion, photo uploads for event posters, Telegram-native theme integration that adapts to dark and light modes, and improved the UI to match Telegram's design language. All TA feedback was addressed and approved.
+
+Now let me show you a quick demo. When you open our Telegram bot and send slash start, you see inline buttons: Open Map, Profile, My Events, Signed Events, and Language. Tapping Open Map opens a Mini App with a Leaflet map centered on Innopolis. Events appear as category-colored pins. Tap any pin to see details and register with one tap. To create an event, just tap anywhere on the map — a form slides up where you fill in the title, description, category, location, date, and participant limit. The event appears on the map instantly. The Profile page shows your stats, and My Events and Signed Events track everything you've created or joined.
+
+Thank you! You can find the source code on GitHub and try the deployed app through the links on the final slide.

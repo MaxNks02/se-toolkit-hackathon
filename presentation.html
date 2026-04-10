@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: white; }
+
+  .slide {
+    width: 1280px; height: 720px;
+    padding: 56px 72px;
+    display: flex; flex-direction: column;
+    page-break-after: always;
+    position: relative;
+    overflow: hidden;
+  }
+  .slide:last-child { page-break-after: avoid; }
+
+  /* Title slide */
+  .slide-1 {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #a855f7 100%);
+    color: white; justify-content: center; align-items: center; text-align: center;
+  }
+  .slide-1 h1 { font-size: 58px; font-weight: 800; letter-spacing: -1px; margin-bottom: 8px; }
+  .slide-1 .tagline { font-size: 20px; opacity: 0.8; margin-bottom: 40px; }
+  .slide-1 .info { font-size: 18px; opacity: 0.9; line-height: 2; }
+  .slide-1 .info span { opacity: 0.6; font-size: 14px; margin-right: 6px; }
+
+  /* Content slides */
+  .slide-content {
+    background: #fafafa;
+  }
+  .slide-num {
+    position: absolute; top: 28px; right: 40px;
+    font-size: 13px; color: #a5b4fc; font-weight: 700;
+    background: #eef2ff; padding: 4px 14px; border-radius: 20px;
+  }
+  .slide-content h2 {
+    font-size: 36px; font-weight: 800; color: #1e1b4b;
+    margin-bottom: 32px; letter-spacing: -0.5px;
+    border-left: 5px solid #6366f1; padding-left: 16px;
+  }
+  .accent { color: #6366f1; }
+
+  .two-col { display: flex; gap: 48px; flex: 1; }
+  .col { flex: 1; }
+
+  .card {
+    background: white; border: 1px solid #e5e7eb; border-radius: 14px;
+    padding: 20px 24px; margin-bottom: 14px;
+  }
+  .card h4 { font-size: 14px; font-weight: 700; color: #6366f1; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .card p, .card li { font-size: 15px; color: #374151; line-height: 1.6; }
+  .card ul { list-style: none; }
+  .card ul li { padding: 3px 0; }
+  .card ul li::before { content: "→ "; color: #6366f1; font-weight: 600; }
+
+  .phone-frame {
+    width: 180px; height: 360px;
+    border-radius: 20px; border: 3px solid #1e1b4b;
+    overflow: hidden; box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+    flex-shrink: 0;
+  }
+  .phone-frame img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+
+  .version-box {
+    background: white; border-radius: 14px; padding: 22px 26px;
+    border: 1px solid #e5e7eb; flex: 1;
+  }
+  .version-box h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+  .version-box ul { list-style: none; font-size: 14px; color: #374151; line-height: 1.8; }
+  .version-box ul li::before { content: "✓ "; color: #10b981; font-weight: 700; }
+
+  .v2 { border-color: #6366f1; }
+  .v2 ul li::before { content: "★ "; color: #6366f1; }
+
+  .qr-block {
+    background: white; border-radius: 16px; padding: 28px;
+    border: 1px solid #e5e7eb; text-align: center; flex: 1;
+  }
+  .qr-block h4 { font-size: 16px; font-weight: 700; color: #1e1b4b; margin-bottom: 8px; }
+  .qr-block .url { font-size: 13px; color: #6366f1; word-break: break-all; margin-bottom: 16px; }
+  .qr-block img { width: 180px; height: 180px; }
+
+  .bottom-bar { position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #6366f1, #a855f7); }
+
+  .badge-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+  .badge { display: inline-block; background: #eef2ff; color: #4f46e5; border-radius: 8px; padding: 6px 14px; font-size: 13px; font-weight: 600; }
+
+  .demo-slide {
+    justify-content: center; align-items: center; text-align: center;
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+    color: white;
+  }
+  .demo-slide h2 { color: white; border-left-color: #a855f7; }
+  .play-btn {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: rgba(99, 102, 241, 0.2); border: 3px solid #6366f1;
+    display: flex; align-items: center; justify-content: center;
+    margin: 20px auto;
+  }
+  .play-btn::after {
+    content: ""; width: 0; height: 0;
+    border-top: 18px solid transparent; border-bottom: 18px solid transparent;
+    border-left: 28px solid #6366f1; margin-left: 6px;
+  }
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1: Title -->
+<div class="slide slide-1">
+  <div>
+    <div style="font-size:64px;margin-bottom:16px">🗺️</div>
+    <h1>Innopolis Events</h1>
+    <div class="tagline">Telegram Mini App for Campus Events</div>
+    <div class="info">
+      <div><span>NAME</span> Maman Torebaev</div>
+      <div><span>EMAIL</span> m.torebaev@innopolis.university</div>
+      <div><span>GROUP</span> B25-CSE-03</div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 2: Context -->
+<div class="slide slide-content">
+  <div class="slide-num">2 / 5</div>
+  <h2>Context</h2>
+  <div class="two-col">
+    <div class="col">
+      <div class="card">
+        <h4>End User</h4>
+        <p>Students, faculty, and staff at Innopolis University who want to discover, organize, and attend campus events.</p>
+      </div>
+      <div class="card">
+        <h4>Problem</h4>
+        <p>Events at Innopolis are scattered across dozens of Telegram chats. There is no central platform to discover what's happening on campus, no map-based view of event locations, and no way to register or track participants.</p>
+      </div>
+      <div class="card">
+        <h4>Product Idea</h4>
+        <p style="font-size:17px;font-weight:600;color:#4f46e5">A Telegram Mini App with an interactive campus map where users can create, discover, and join events at any location in Innopolis.</p>
+      </div>
+    </div>
+    <div class="col" style="display:flex;gap:14px;align-items:center;justify-content:center">
+      <div class="phone-frame"><img src="screenshots/photo_2026-04-09_22-49-01.jpg" /></div>
+      <div class="phone-frame"><img src="screenshots/photo_1_2026-04-09_22-48-12.jpg" /></div>
+    </div>
+  </div>
+  <div class="bottom-bar"></div>
+</div>
+
+<!-- SLIDE 3: Implementation -->
+<div class="slide slide-content">
+  <div class="slide-num">3 / 5</div>
+  <h2>Implementation</h2>
+  <div style="display:flex;gap:24px;margin-bottom:20px;flex:1">
+    <div class="version-box">
+      <h3 style="color:#059669">Version 1 — Core MVP</h3>
+      <ul>
+        <li>Interactive Leaflet map of Innopolis</li>
+        <li>Event creation by tapping map location</li>
+        <li>Event registration / unregistration</li>
+        <li>9 event categories with filters & search</li>
+        <li>User profiles synced from Telegram</li>
+        <li>Bilingual support (Russian / English)</li>
+        <li>Telegram bot with WebApp inline buttons</li>
+        <li>Auth via Telegram initData</li>
+      </ul>
+    </div>
+    <div class="version-box v2">
+      <h3 style="color:#6366f1">Version 2 — Enhanced</h3>
+      <ul>
+        <li>Event chat — discuss in real time</li>
+        <li>Photo upload for event posters</li>
+        <li>Telegram-native theme integration</li>
+        <li>Dynamic bot URLs (tunnel auto-update)</li>
+        <li>Improved UI matching Telegram design</li>
+      </ul>
+      <div style="margin-top:16px;padding-top:14px;border-top:1px solid #e5e7eb">
+        <h4 style="font-size:13px;color:#6366f1;font-weight:700;margin-bottom:6px">TA FEEDBACK</h4>
+        <p style="font-size:14px;color:#374151">✅ Approved — all feedback addressed</p>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;justify-content:center">
+      <div class="phone-frame" style="height:280px"><img src="screenshots/photo_2026-04-09_22-50-18.jpg" /></div>
+      <div class="phone-frame" style="height:280px"><img src="screenshots/photo_2026-04-09_22-47-52.jpg" /></div>
+    </div>
+  </div>
+  <div class="badge-row">
+    <div class="badge">Vue 3 + Vite</div>
+    <div class="badge">Tailwind CSS</div>
+    <div class="badge">Leaflet.js</div>
+    <div class="badge">Express.js</div>
+    <div class="badge">SQLite</div>
+    <div class="badge">grammY Bot</div>
+    <div class="badge">Docker</div>
+    <div class="badge">nginx + SSL</div>
+  </div>
+  <div class="bottom-bar"></div>
+</div>
+
+<!-- SLIDE 4: Demo -->
+<div class="slide slide-content">
+  <div class="slide-num">4 / 5</div>
+  <h2>Demo — <span class="accent">App Walkthrough</span></h2>
+  <div style="display:flex;gap:20px;flex:1;align-items:center;justify-content:center">
+    <div style="text-align:center">
+      <div class="phone-frame" style="height:380px"><img src="screenshots/photo_2026-04-09_22-49-01.jpg" /></div>
+      <div style="margin-top:10px;font-size:13px;font-weight:600;color:#1e1b4b">1. Bot Menu</div>
+    </div>
+    <div style="font-size:28px;color:#d1d5db;padding-top:0">→</div>
+    <div style="text-align:center">
+      <div class="phone-frame" style="height:380px"><img src="screenshots/photo_2026-04-09_22-47-52.jpg" /></div>
+      <div style="margin-top:10px;font-size:13px;font-weight:600;color:#1e1b4b">2. Map View</div>
+    </div>
+    <div style="font-size:28px;color:#d1d5db;padding-top:0">→</div>
+    <div style="text-align:center">
+      <div class="phone-frame" style="height:380px"><img src="screenshots/photo_1_2026-04-09_22-48-12.jpg" /></div>
+      <div style="margin-top:10px;font-size:13px;font-weight:600;color:#1e1b4b">3. Event Popup</div>
+    </div>
+    <div style="font-size:28px;color:#d1d5db;padding-top:0">→</div>
+    <div style="text-align:center">
+      <div class="phone-frame" style="height:380px"><img src="screenshots/photo_2026-04-09_22-50-18.jpg" /></div>
+      <div style="margin-top:10px;font-size:13px;font-weight:600;color:#1e1b4b">4. Create Event</div>
+    </div>
+    <div style="font-size:28px;color:#d1d5db;padding-top:0">→</div>
+    <div style="text-align:center">
+      <div class="phone-frame" style="height:380px"><img src="screenshots/photo_2_2026-04-09_22-48-12.jpg" /></div>
+      <div style="margin-top:10px;font-size:13px;font-weight:600;color:#1e1b4b">5. Profile</div>
+    </div>
+  </div>
+  <div style="text-align:center;font-size:14px;color:#6b7280;margin-top:8px">Full video demo with voice-over attached separately</div>
+  <div class="bottom-bar"></div>
+</div>
+
+<!-- SLIDE 5: Links -->
+<div class="slide slide-content" style="justify-content:center">
+  <div class="slide-num">5 / 5</div>
+  <h2>Links</h2>
+  <div style="display:flex;gap:40px;justify-content:center;align-items:flex-start">
+    <div class="qr-block">
+      <h4>📦 GitHub Repository</h4>
+      <div class="url">github.com/MaxNks02/se-toolkit-hackathon</div>
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://github.com/MaxNks02/se-toolkit-hackathon" alt="GitHub QR" />
+    </div>
+    <div class="qr-block">
+      <h4>🌐 Deployed Product</h4>
+      <div class="url">innopolis-events.loca.lt</div>
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://innopolis-events.loca.lt" alt="Deploy QR" />
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:32px;font-size:15px;color:#6b7280">
+    Maman Torebaev · m.torebaev@innopolis.university · B25-CSE-03
+  </div>
+  <div class="bottom-bar"></div>
+</div>
+
+</body>
+</html>
