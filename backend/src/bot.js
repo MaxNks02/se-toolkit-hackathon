@@ -1,4 +1,4 @@
-const { Bot, InlineKeyboard } = require('grammy');
+const { Bot, Keyboard, InlineKeyboard } = require('grammy');
 const db = require('./database');
 const { t } = require('./i18n');
 const fs = require('fs');
@@ -23,14 +23,17 @@ function createBot(token, webAppUrl) {
     return user?.language || 'en';
   }
 
-  function getMainMenu(lang, url) {
-    return new InlineKeyboard()
-      .webApp(t(lang, 'open_map'), url).row()
+  function getMainKeyboard(lang, url) {
+    return new Keyboard()
+      .webApp(t(lang, 'open_map'), url)
+      .row()
       .webApp(t(lang, 'my_events'), `${url}/my-events`)
-      .webApp(t(lang, 'signed_events'), `${url}/signed-events`).row()
+      .webApp(t(lang, 'signed_events'), `${url}/signed-events`)
+      .row()
       .webApp(t(lang, 'profile'), `${url}/profile`)
-      .text(`🌐 ${t(lang, 'language')}`, 'change_lang').row()
-      .text('📖 Help', 'help');
+      .text(`🌐 ${t(lang, 'language')}`)
+      .resized()
+      .persistent();
   }
 
   bot.command('start', async (ctx) => {
@@ -54,32 +57,17 @@ function createBot(token, webAppUrl) {
     const url = getWebAppUrl();
     await ctx.reply(t(lang, 'welcome'), {
       parse_mode: 'HTML',
-      reply_markup: getMainMenu(lang, url),
+      reply_markup: getMainKeyboard(lang, url),
     });
   });
 
-  bot.on('message:text', async (ctx) => {
-    const lang = getUserLang(ctx.from.id);
-    const url = getWebAppUrl();
-    await ctx.reply(t(lang, 'welcome'), {
-      parse_mode: 'HTML',
-      reply_markup: getMainMenu(lang, url),
-    });
-  });
-
-  bot.callbackQuery('help', async (ctx) => {
-    const lang = getUserLang(ctx.from.id);
-    await ctx.answerCallbackQuery();
-    await ctx.reply(t(lang, 'help'), { parse_mode: 'HTML' });
-  });
-
-  bot.callbackQuery('change_lang', async (ctx) => {
+  // Language button
+  bot.hears(/🌐/, async (ctx) => {
     const lang = getUserLang(ctx.from.id);
     const keyboard = new InlineKeyboard()
       .text(lang === 'en' ? '🇬🇧 English  ✓' : '🇬🇧 English', 'lang_en')
       .text(lang === 'ru' ? '🇷🇺 Русский  ✓' : '🇷🇺 Русский', 'lang_ru');
-    await ctx.answerCallbackQuery();
-    await ctx.editMessageText(t(lang, 'choose_language'), {
+    await ctx.reply(t(lang, 'choose_language'), {
       parse_mode: 'HTML',
       reply_markup: keyboard,
     });
@@ -88,20 +76,22 @@ function createBot(token, webAppUrl) {
   bot.callbackQuery('lang_en', async (ctx) => {
     db.prepare('UPDATE users SET language = ? WHERE telegram_id = ?').run('en', String(ctx.from.id));
     await ctx.answerCallbackQuery({ text: t('en', 'lang_changed') });
+    await ctx.deleteMessage();
     const url = getWebAppUrl();
-    await ctx.editMessageText(t('en', 'welcome'), {
+    await ctx.reply(t('en', 'welcome'), {
       parse_mode: 'HTML',
-      reply_markup: getMainMenu('en', url),
+      reply_markup: getMainKeyboard('en', url),
     });
   });
 
   bot.callbackQuery('lang_ru', async (ctx) => {
     db.prepare('UPDATE users SET language = ? WHERE telegram_id = ?').run('ru', String(ctx.from.id));
     await ctx.answerCallbackQuery({ text: t('ru', 'lang_changed') });
+    await ctx.deleteMessage();
     const url = getWebAppUrl();
-    await ctx.editMessageText(t('ru', 'welcome'), {
+    await ctx.reply(t('ru', 'welcome'), {
       parse_mode: 'HTML',
-      reply_markup: getMainMenu('ru', url),
+      reply_markup: getMainKeyboard('ru', url),
     });
   });
 
