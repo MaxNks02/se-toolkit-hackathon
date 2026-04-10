@@ -8,14 +8,14 @@ function createBot(token, webAppUrl) {
   const bot = new Bot(token);
 
   function getWebAppUrl() {
+    // Try .env file first (for tunnel manager updates), then env var, then constructor param
     try {
       const envPath = path.join(__dirname, '..', '.env');
       const env = fs.readFileSync(envPath, 'utf8');
       const match = env.match(/WEBAPP_URL=(.*)/);
-      return match ? match[1].trim() : webAppUrl;
-    } catch {
-      return webAppUrl;
-    }
+      if (match && match[1].trim()) return match[1].trim();
+    } catch {}
+    return process.env.WEBAPP_URL || webAppUrl;
   }
 
   function getUserLang(telegramId) {
